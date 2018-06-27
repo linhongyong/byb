@@ -1,0 +1,22 @@
+{
+  "name": "bybnode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linhongyong/byb.git"
+  },
+  "author": "linhongyong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/linhongyong/byb/issues"
+  },
+  "homepage": "https://github.com/linhongyong/byb#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
