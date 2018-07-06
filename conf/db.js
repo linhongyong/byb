@@ -2,10 +2,10 @@
 // MySQL数据库联接配置
 module.exports = {
     mysql: {
-        host: 'localhost', 
+        host: '120.78.179.176', 
         user: 'root',
-        password: 'root',
-        database:'therethey', // 前面建的user表位于些数据库中
+        password: 'rooth',
+        database:'therethey',
         port: 3306
     }
 };
