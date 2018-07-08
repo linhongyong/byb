@@ -23,7 +23,14 @@ var query=require('./util/query.js');
 module.exports = {
 	//增加用户
 	addAUserWithNamAndPwd: async function (name,pwd) {
-		let result = await query($sql.insertWithNamAndPwd, [name, pwd]);
+		let result = await query($sql.insertWithNamAndPwd, [name, nickName]);
+		return result;
+	},
+	addUserWithWxUserInfo: async function (wxUserInfo) {
+		console.log(wxUserInfo.nickName,wxUserInfo.gender,wxUserInfo.language,wxUserInfo.city,wxUserInfo.province,wxUserInfo.country,wxUserInfo.avatarUrl);
+		let result = await query($sql.insertWithWxUserInfo, [wxUserInfo.nickName,wxUserInfo.gender,wxUserInfo.language,wxUserInfo.city,wxUserInfo.province,wxUserInfo.country,wxUserInfo.avatarUrl]);
+		console.log("*********************************result*******************************");
+		console.log(result);
 		return result;
 	},
 //  gooddelete: function (req, res, next) {

@@ -1,7 +1,7 @@
 var sql={
 	//增
 	insertWithNamAndPwd:'INSERT INTO `tt_user` (`id`,`name`,`password`) VALUES(null,?,?)',
-	insert:'INSERT INTO `tt_user` (`id`,`name`,`tel`,`password`) VALUES(null,?,?,?)',
+	insertWithWxUserInfo:'INSERT INTO `tt_user` (`id`,`nickName`,`gender`,`language`,`city`,`province`,`country`,`avatarUrl`) VALUES(null,?,?,?,?,?,?,?)',
 	//删
 	delete: 'delete from `tt_user` where id=?',
 	//改
