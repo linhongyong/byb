@@ -37,43 +37,6 @@ router.post('/login', async function(req, res, next) {
 	   	message: "成功登录",
 	  }
 	});
-//	let username = req.body.username;
-//	let pwd = req.body.password;
-//	let user = (await userDao.getUserByUserName(username))[0];
-//	//let pass = user[0].password;
-//	console.log(user);
-//	console.log('user.password  ' + user.password);
-//	await new Promise((resolve, reject) => {
-//		hash({
-//			password: user.password
-//		}, function(err, pwd, salt, hash1) {
-//			console.log(err, pwd, salt, hash1);
-//			if(err) {
-//				throw err
-//			};
-//			user.salt = salt;
-//			user.hash = hash1;
-//			resolve();
-//		});
-//	})
-//	hash({
-//		password: pwd,
-//		salt: user.salt
-//	}, function(err, pwd, salt, hash) {
-//		console.log('2222');
-//		console.log(err, pwd, salt, hash);
-//		if(err) console.log('err'); //return fn(err);
-//		if(hash === user.hash) {
-//			console.log('ok'); //return fn(null, user)
-//			res.redirect('/index.html');
-//		} else {
-//			console.log('invalid password'); //fn(new Error('invalid password'));
-//		}
-//	});
-//	if(!user) {
-//		console.log('账号无效');
-//	}
-//	console.log('----------');
 
 });
 function authenticate(name, pass, fn) {
