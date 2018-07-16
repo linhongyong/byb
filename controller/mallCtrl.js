@@ -39,7 +39,16 @@ router.get('/index/goods', async function(req, res, next) {
 	  }
 	});
 });
-
+router.get('/goods_mgt/goods', async function(req, res, next) {
+	let result = await mallDao.getMallAllGoods();
+	res.jsonp({
+	  status: 200,
+	  message: "ok",
+	  data: {
+	   	goods:result
+	  }
+	});
+});
 /* 上传商品信息 */
 router.post('/upload/good', async function(req, res, next) {
 	let result = await mallDao.getMallAllGoods();
@@ -53,6 +62,7 @@ router.post('/upload/good', async function(req, res, next) {
 });
 router.post('/upload/img', async function(req, res, next) {
 	console.log("111--------------");
+	console.log(req.file);
 	console.log(req.files);
 	console.log(req.body);
 	console.log("222--------------");
