@@ -3,6 +3,7 @@ var router = express.Router();
 var path = require('path');
 var hash = require('pbkdf2-password')();
 var bodyParser = require('body-parser');
+var request = require('request');
 
 //关联主程序
 var userDao = require('../dao/userDao.js');
@@ -30,45 +31,26 @@ function outputObj(obj) {
 
 router.post('/login', async function(req, res, next) {
 	console.log(req.body.userInfo);
-	const options = {
-	  hostname: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx2a67e2e4bf531217&secret=wx2a67e2e4bf531217&js_code=JSCODE&grant_type='+req.body.userInfo.code,
-	  port: 80,
-	  path: '/upload',
-	  method: 'POST',
-	  headers: {
-	    'Content-Type': 'application/x-www-form-urlencoded',
-	    'Content-Length': Buffer.byteLength(postData)
-	  }
-	};
-	
-	const req = http.request(options, (res) => {
-	  console.log(`状态码: ${res}`);
-	  console.log(`响应头: ${JSON.stringify(res.headers)}`);
-	  res.setEncoding('utf8');
-	  res.on('data', (chunk) => {
-	    console.log(`响应主体: ${chunk}`);
-	  });
-	  res.on('end', () => {
-	    console.log('响应中已无数据。');
-	  });
-	});
-	
-	req.on('error', (e) => {
-	  console.error(`请求遇到问题: ${e.message}`);
-	});
-	
-	// 写入数据到请求主体
-	req.write(postData);
-	req.end();
+	let appid = 'wx2a67e2e4bf531217';
+	let secret = '64bfb35d7a86198875121a8bcae944a2';
+	let code = req.body.userInfo.code;
+	console.log(appid,secret,code);
+	let url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`
+    request(url, function (error, response, body) {
+	  let session_key = body.session_key;
+	  let openid = body.openid;
+	  console.log(session_key,openid);
+	})
+//  res.redirect(url);
 
-	let result = await userDao.addUserWithWxUserInfo(req.body.userInfo);
-	res.jsonp({
-	  status: 200,
-	  message: "ok",
-	  data: {
-	   	message: "成功登录",
-	  }
-	});
+//	let result = await userDao.addUserWithWxUserInfo(req.body.userInfo);
+//	res.jsonp({
+//	  status: 200,
+//	  message: "ok",
+//	  data: {
+//	   	message: "成功登录",
+//	  }
+//	});
 
 });
 function authenticate(name, pass, fn) {
