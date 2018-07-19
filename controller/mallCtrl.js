@@ -70,7 +70,8 @@ router.get('/goods_mgt/goods', async function(req, res, next) {
 });
 /* 上传商品信息 */
 router.post('/upload/good', async function(req, res, next) {
-	let result = await mallDao.getMallAllGoods();
+	console.log(req.body);
+	let result = await mallDao.addAGood(req.body);
 	res.jsonp({
 	  status: 200,
 	  message: "ok",
@@ -79,19 +80,21 @@ router.post('/upload/good', async function(req, res, next) {
 	  }
 	});
 });
-router.post('/upload/img', upload.single('img'), function(req, res, next) {
+router.post('/upload/img', upload.single('img'), async function(req, res, next) {
 	//上传限制
-	console.log("111--------------");
 	console.log(req.file);
 	console.log(req.body);
-	console.log("222--------------");
+	let temp = req.file.path.split("/");
+	temp.splice(0,1);
+	let path = temp.join("/");
 	res.jsonp({
 	  status: 200,
 	  message: "图片",
 	  data: {
-	  	path: req.file.path
+	  	path: "http://120.78.179.176:3001/" + path
 	  }
 	});
+	
 });
 module.exports = router;
 

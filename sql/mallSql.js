@@ -1,4 +1,7 @@
 var sql={
+	
+	//增
+	insertWithGoodInfo:'INSERT INTO `tt_user` (`id`,`nickName`,`gender`,`language`,`city`,`province`,`country`,`avatarUrl`,`openid`) VALUES(null,?,?,?,?,?,?,?,?)',
 	//查询轮播图
 	selectMallIndexBanners:'select * from `tt_mall_banner` where type=?',
 	//分类

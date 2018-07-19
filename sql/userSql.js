@@ -1,7 +1,7 @@
 var sql={
 	//增
 	insertWithNamAndPwd:'INSERT INTO `tt_user` (`id`,`name`,`password`) VALUES(null,?,?)',
-	insertWithWxUserInfo:'INSERT INTO `tt_user` (`id`,`nickName`,`gender`,`language`,`city`,`province`,`country`,`avatarUrl`) VALUES(null,?,?,?,?,?,?,?)',
+	insertWithWxUserInfo:'INSERT INTO `tt_user` (`id`,`nickName`,`gender`,`language`,`city`,`province`,`country`,`avatarUrl`,`openid`) VALUES(null,?,?,?,?,?,?,?,?)',
 	//删
 	delete: 'delete from `tt_user` where id=?',
 	//改
@@ -12,7 +12,9 @@ var sql={
     
     getUserById: 'select * from tt_user where id=?',
     
-    getUserByUserName: 'select * from `tt_user` where `name`=?'
+    getUserByUserName: 'select * from `tt_user` where `name`=?',
+    
+    getWithOpenid: 'select * from `tt_user` where `openid`=?',
 }
 
 module.exports=sql;

@@ -34,24 +34,42 @@ router.post('/login', async function(req, res, next) {
 	let appid = 'wx2a67e2e4bf531217';
 	let secret = '64bfb35d7a86198875121a8bcae944a2';
 	let code = req.body.userInfo.code;
-	console.log(appid,secret,code);
+	console.log("appid:"+appid,"secret:"+secret,"code:"+code);
 	let url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`
-    request(url, function (error, response, body) {
-	  let session_key = body.session_key;
-	  let openid = body.openid;
-	  console.log(session_key,openid);
+    request(url, async function (error, response, body) {
+    	let body2 = JSON.parse(body);
+	 	let session_key = body2.session_key;
+	  	let openid = body2.openid;
+	  	console.log(session_key,openid);
+	  	console.log('error:', error); // Print the error if one occurred
+	  	console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+	  	console.log('body:', body); 
+	  //
+	  let result = await userDao.isOpdenidExist(openid);
+	  console.log("******************isOpdenidExist*************************");
+	  console.log(result);
+	  if(result.length > 0){
+	  	//存在
+	  	res.jsonp({
+		  status: 200,
+		  message: "ok",
+		  data: {
+		   	message: "成功登录",
+		  }
+		});
+	  	
+	  }else{
+	  	req.body.userInfo.openid = openid;
+	  	let result = await userDao.addUserWithWxUserInfo(req.body.userInfo);
+	  	res.jsonp({
+		  status: 200,
+		  message: "ok",
+		  data: {
+		   	message: "成功注册",
+		  }
+		});
+	  }
 	})
-//  res.redirect(url);
-
-//	let result = await userDao.addUserWithWxUserInfo(req.body.userInfo);
-//	res.jsonp({
-//	  status: 200,
-//	  message: "ok",
-//	  data: {
-//	   	message: "成功登录",
-//	  }
-//	});
-
 });
 function authenticate(name, pass, fn) {
 	if(!module.parent) console.log('authenticating %s:%s', name, pass);

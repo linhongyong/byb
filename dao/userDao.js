@@ -27,10 +27,11 @@ module.exports = {
 		return result;
 	},
 	addUserWithWxUserInfo: async function (wxUserInfo) {
-		console.log(wxUserInfo.nickName,wxUserInfo.gender,wxUserInfo.language,wxUserInfo.city,wxUserInfo.province,wxUserInfo.country,wxUserInfo.avatarUrl);
-		let result = await query($sql.insertWithWxUserInfo, [wxUserInfo.nickName,wxUserInfo.gender,wxUserInfo.language,wxUserInfo.city,wxUserInfo.province,wxUserInfo.country,wxUserInfo.avatarUrl]);
-		console.log("*********************************result*******************************");
-		console.log(result);
+		let result = await query($sql.insertWithWxUserInfo, [wxUserInfo.nickName,wxUserInfo.gender,wxUserInfo.language,wxUserInfo.city,wxUserInfo.province,wxUserInfo.country,wxUserInfo.avatarUr,wxUserInfo.openid]);
+		return result;
+	},
+	isOpdenidExist: async function (openid) {
+		let result = await query($sql.getWithOpenid, [openid]);
 		return result;
 	},
 //  gooddelete: function (req, res, next) {
