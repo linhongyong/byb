@@ -3,6 +3,7 @@
 //var $conf=require('../conf/db.js');
 //var $util=require('../util/util.js');
 var $sql=require('../sql/userSql.js');
+var insert=require('./util/insert.js');
 ////使用连接池
 //var pool  = mysql.createPool($util.extend({}, $conf.mysql));
 //
@@ -26,79 +27,40 @@ module.exports = {
 		let result = await query($sql.insertWithNamAndPwd, [name, nickName]);
 		return result;
 	},
+	
+	addHitCardLog: async function (obj) {
+		let result = await insert("tt_hitcard", obj);;
+		return result;
+	},
+	getHitCardLog: async function () {
+		let sqlStr = 'select * from tt_hitcard'
+		let result = await query(sqlStr);
+		return result;
+	},
+	//增加用户
+	addAUserWithNamAndPwd: async function (name,pwd) {
+		let result = await query($sql.insertWithNamAndPwd, [name, nickName]);
+		return result;
+	},
+	
 	addUserWithWxUserInfo: async function (wxUserInfo) {
-		let result = await query($sql.insertWithWxUserInfo, [wxUserInfo.nickName,wxUserInfo.gender,wxUserInfo.language,wxUserInfo.city,wxUserInfo.province,wxUserInfo.country,wxUserInfo.avatarUr,wxUserInfo.openid]);
+		let result = await insert("tt_user", wxUserInfo);
+		//let result = await query($sql.insertWithWxUserInfo, [wxUserInfo.nickName,wxUserInfo.gender,wxUserInfo.language,wxUserInfo.city,wxUserInfo.province,wxUserInfo.country,wxUserInfo.avatarUr,wxUserInfo.openid]);
 		return result;
 	},
 	isOpdenidExist: async function (openid) {
 		let result = await query($sql.getWithOpenid, [openid]);
 		return result;
 	},
-//  gooddelete: function (req, res, next) {
-//      // delete by Id
-//      pool.getConnection(function(err, connection) {
-//          var id = +req.query.id;
-//          connection.query($sql.gooddelete, id, function(err, result) {
-//              if(result.affectedRows > 0) {
-//                  result = {
-//                      code: 200,
-//                      msg:'删除成功'
-//                  };
-//              } else {
-//                  result = void 0;
-//              }
-//              jsonWrite(res, result);
-//              connection.release();
-//          });
-//      });
-//  },
-//  goodupdate: function (req, res, next) {
-//      // update by id
-//      // 为了简单，要求同时传name和age两个参数
-//      pool.getConnection(function(err, connection) {
-//			// 获取前台页面传过来的参数
-//			var param = req.query || req.params;
-// 			
-//			// 建立连接，向表中插入值
-//			// 'INSERT INTO user(id, name, age) VALUES(0,?,?)',
-//			connection.query($sql.goodupdate, [param.name, param.desc,param.price,param.sum,param.id], function(err, result) {
-//				if(result) {
-//					result = {
-//						code: 200,
-//						msg:'修改成功'
-//					};    
-//				}
-// 
-//				// 以json形式，把操作结果返回给前台页面
-//				jsonWrite(res, result);
-// 
-//				// 释放连接 
-//				connection.release();
-//			});
-//		});
-//  },
-//  	//得到所有商品 在路由routes调用本方法，这个方法调用sql语句 ，并返回相应结果jsonwrite
-//	goodAll: function (req, res, next) {
-//      pool.getConnection(function(err, connection) {
-//          connection.query($sql.goodAll, function(err, result) {
-//              jsonWrite(res, result);
-//              connection.release();
-//          });
-//      });
-//  },
-//
-//  goodById: function (req, res, next) {
-//      var id = +req.query.id; // 为了拼凑正确的sql语句，这里要转下整数
-//      pool.getConnection(function(err, connection) {
-//          connection.query($sql.goodById, id, function(err, result) {
-//              jsonWrite(res, result);
-//              connection.release();
-//
-//          });
-//      });
-//  },
+
     getUserByUserName: async function (un) {
     	let result = await query($sql.getUserByUserName, un);
     	return result;
     },
+    
+    getChiefInfo: async function (userId) {
+    	let sqlStr = 'select nickname, avatar_url from tt_user where id=?'
+		let result = await query($sql.getWithOpenid, [userId]);
+		return result;
+	},
 };

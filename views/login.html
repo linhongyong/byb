@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="http://www.therethey.com:3001/stylesheets/ng.css"/>
+	<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_508260_ot13bymh5lys0pb9.css"/>
+	<!--<script src="../../js/ng.js" type="text/javascript" charset="utf-8"></script>-->
+	<!--<script src="../../js/vue/vue.js" type="text/javascript" charset="utf-8"></script>-->
+	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	<style type="text/css">
+			html {
+			    /*font-size: 37.5px!important;*/
+			}
+			.logo{
+				width: 102PX;
+				height: 102PX;
+				    background: url(../public/icon/Street View.png) no-repeat;
+				    background-size: contain;
+				    margin: 60PX auto 0;
+				    border-radius: 50PX;
+			}
+			input{
+				border: none!important;
+				outline: none!important;
+				
+			}
+	</style>
+</head>
+<body class="ng-whiteBg">
+<div class="ng-content login">
+	<div class="logo tb-logo"></div>
+		<form class="padding-h-20 padding-t-10" action="/api/user/weblogin" method="post">
+			<div class="margin-t-30 border-1px-bottom" style="">
+				<input style="" type="text" class="ng-input-clear" placeholder="用户名" name="nickName">
+			</div>
+			<!--<div class="margin-t-30 border-1px-bottom" style="">
+			    <input type="password" class="ng-input-password" placeholder="密码" name="password">
+			</div>-->
+			<div class="ng-button-row">
+			    <button id="login-btn" type="submit" class="ng-btn login-btn" >登 录</button>
+			    <!--<div class="ng-row ng-footer ng-field font-14 font-ccc">
+				    <div class="ng-col-sm-6 ng-col-xs-6" onclick="location.href='register.html'">
+				        <a id="register" class="f-left">免费注册</a>
+				    </div>
+				    <div class="ng-col-sm-6 ng-col-xs-6" style="text-align: right;">
+				        <a id="forgetPwd" class="f-right">忘记密码？</a>
+				    </div>
+				</div>-->
+			</div>
+	   </form>
+
+</div>
+
+		
+</body>
+<script type="text/javascript">			
+//var app = angular.module('myApp', []);
+//app.controller('myCtrl', function($scope, $http) {
+//	var date = new Date();
+//	$scope.login = function(){
+//		$http.post("/api/user/weblogin",{ nickName: $scope.nickName, password: $scope.password},{})
+//	    
+//	}
+//  
+//});
+
+</script>		
+</html>

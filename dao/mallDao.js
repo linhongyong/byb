@@ -1,8 +1,11 @@
 var $sql=require('../sql/mallSql.js');
 
 var query=require('./util/query.js');
+var insert=require('./util/insert.js');
 
 module.exports = {
+	
+	
 	
 	getMallIndexBanners: async function (type) {
 		let result = await query($sql.selectMallIndexBanners, [type]);
@@ -12,10 +15,7 @@ module.exports = {
 		let result = await query($sql.selectCategorysByLevel, [level]);
 		return result;
 	},
-	getMallAllGoods: async function () {
-		let result = await query($sql.selectAllGoods);
-		return result;
-	},
+	
 	//添加商品
 	addAGood: async function (obj) {
 		let valueArray = [];

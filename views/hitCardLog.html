@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	</head>
+	<body>
+		<div id=""  ng-app="myApp" ng-controller="myCtrl" >
+			<ul>
+			  <li ng-repeat="item in list">
+			    {{ item.nick_name + ' 完成 ' + item.hit_time + '  ' + item.times }}
+			  </li>
+			</ul>
+		</div>
+	</body>
+</html>
+<script type="application/ecmascript">
+Date.prototype.Format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, 
+        "d+": this.getDate(), 
+        "H+": this.getHours(),  
+        "m+": this.getMinutes(),  
+        "s+": this.getSeconds(), 
+        "q+": Math.floor((this.getMonth() + 3) / 3), 
+        "S": this.getMilliseconds()  
+    };
+    var year = this.getFullYear();
+    var yearstr = year + '';
+    yearstr = yearstr.length >= 4 ? yearstr : '0000'.substr(0, 4 - yearstr.length) + yearstr;
+    
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (yearstr + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope,$http) {
+	var scope =$scope;
+	$http({
+		method: 'GET',
+		url: 'http://www.therethey.com:3001/api/user/hitCardLog'
+	}).then(function successCallback(res) {
+			var list = res.data.data.result;
+			for(var i=0, len=list.length; i<len; i++){
+				list[i].hit_time = (new Date(list[i].hit_time)).Format("yyyy-MM-dd HH:mm:ss");
+				if(list[i].times == 1){
+					list[i].times = "上班打卡";
+				}
+				else if(list[i].times == 2){
+					list[i].times = "下班打卡";
+				}
+			}
+			scope.list = list;
+			console.log(res);
+		}, function errorCallback(response) {
+			console.log(response);
+	});
+	
+});
+
+
+</script>

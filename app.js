@@ -5,12 +5,23 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var redis = require('redis');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
-//var routes = require('./routes/index');
-//var users = require('./routes/users');
+var redisClient = redis.createClient();
+
+
+
+
+var routes = require('./routes/index');
 var userCtrl = require('./controller/userCtrl');
 var mallCtrl = require('./controller/mallCtrl');
 
+var funnyCtrl = require('./controller/funnyCtrl');
+var essayCtrl = require('./controller/essayCtrl');
+var sellGoodCtrl = require('./controller/sellGoodCtrl');
+var rentGoodCtrl = require('./controller/rentGoodCtrl');
 var app = express();
 
 // view engine setup
@@ -24,17 +35,43 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By",' 3.2.1')
+    if(req.method=="OPTIONS") res.send(200);/*让options请求快速返回*/
+    else  next();
+});
+/**
+ * redis持久化session
+ */
+app.use(session({
+    store: new RedisStore({client:redisClient}),
+    secret: 'keyboard cat',
+    resave:false, 
+	saveUninitialized:false
+}))
+
+
+
+
+
 
 //设置路由
-//app.use('/', routes);
-app.use('/user', userCtrl);
+app.use('/', routes);
 app.use('/api/user', userCtrl);
 app.use('/api/mall', mallCtrl);
+
+app.use('/api/funny', funnyCtrl);
+app.use('/api/essay', essayCtrl);
+app.use('/api/good', sellGoodCtrl);
+app.use('/api/good', rentGoodCtrl);
 //app.get('/login', function(req, res){
 //console.log(req.params,req.query);
 //res.json(JSON.stringify(req.query))
 //});
-
 
 
 

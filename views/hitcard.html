@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body style="width: 100%;">
+	<div class="" ng-app="myApp" ng-controller="myCtrl">
+		<div ng-click="hitCard()" style="">
+			<div style="margin-top: 150px;text-align: center;">
+				{{nickname}}
+			</div>
+			<div style="border: 16px solid lightgoldenrodyellow;text-align: center;border-radius: 50%;
+				padding: 10px;width: 120px;height: 120px;position: relative;top:50px;margin:0 auto;">
+				<div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">
+					<p style="font-size: 32px;font-weight: bold;line-height: 46px;">{{nowTime}}</p>	
+					<p style="font-size: 15px;line-height: 20px;">{{tip}}</p>	
+				</div>
+			</div>
+			
+		</div>	
+		<div id=""  style="margin-top: 100px;">
+			<a style="margin-top: 100px;" href="http://www.therethey.com:3001/hitCardLog.html" ng-show="isAdmin">查看所有打卡记录</a>	
+		</div>
+	</div>
+	
+
+</body>
+<script type="text/javascript">
+Date.prototype.Format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, 
+        "d+": this.getDate(), 
+        "H+": this.getHours(),  
+        "m+": this.getMinutes(),  
+        "s+": this.getSeconds(), 
+        "q+": Math.floor((this.getMonth() + 3) / 3), 
+        "S": this.getMilliseconds()  
+    };
+    var year = this.getFullYear();
+    var yearstr = year + '';
+    yearstr = yearstr.length >= 4 ? yearstr : '0000'.substr(0, 4 - yearstr.length) + yearstr;
+    
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (yearstr + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope,$http) {
+	var date = new Date();
+    $scope.nowTime = date.getHours()+":"+date.getMinutes();
+    $scope.isAdmin = false;
+    if(getUrlParam("nickname")=='admin'){
+    	$scope.isAdmin = true;
+    }
+    var times = getUrlParam("times");
+    if( times == 0){
+    	$scope.tip = "上班打卡";
+    }
+    else if(times == 1){
+    	$scope.tip = "下班打卡";
+    }else{
+    	$scope.tip = "出现bug啦";
+    }
+    var scope = $scope;
+    $scope.nickname = getUrlParam("nickname");
+    $scope.hitCard = function(){
+    	var date = new Date();
+    	times++;
+		$http.post("/api/user/hitcard",
+		{ 
+			nickName: getUrlParam("nickname"),
+			hitTime:date.Format("yyyy-MM-dd HH:mm:ss"),
+			times
+			
+		},{})
+		.then(function(res){
+			alert(res.data.data.message);
+			if(times == 2){
+				location.href="http://www.therethey.com:3001/hitcardIsOver.html"
+			}
+			console.log(res);
+			scope.tip = "下班打卡";
+			
+		});
+    };
+    
+});
+
+function getUrlParam(name, url) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	if(!!url){
+	    	var r = url;
+	}else{
+	    	var r = window.location.search.substr(1).match(reg);
+	}
+	if (r != null) return unescape(r[2]);
+	return null;
+}
+</script>
+</html>
