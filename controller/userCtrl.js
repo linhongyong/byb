@@ -55,7 +55,8 @@ router.post('/hitcard', async function(req, res, next) {
 	//判断用户是否合法
 	if(req.session.user.nickName == req.body.nickName){//合法
 		//数据库插入一条打卡记录
-		let result = await userDao.addHitCardLog({nickName:req.session.user.nickName, hitTime:req.body.hitTime, times:req.body.times});
+		let result = await userDao.addHitCardLog({nickName:req.session.user.nickName, 
+			hitTime:req.body.hitTime, times:req.body.times});
 		if(req.body.times == 2){//今日打卡结束
 			req.session.user.overdate = req.body.hitTime.split(" ")[0];//记录日期部分
 			req.session.user.times = 0;

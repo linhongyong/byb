@@ -48,6 +48,58 @@ router.get('/essays/get', async function(req, res, next) {
 	}
 	
 });
+//获得帖子 按类别
+router.get('/essays/getByType', async function(req, res, next) {
+	console.log(req.query);
+	let list = await essayDao.getEssaysByType(req.query);
+	if(list.length >= req.query.size){
+		res.jsonp({
+			status: 200,
+			message: "ok",
+			data: {
+				list,
+				hasMore: 1
+			}
+		});
+	}else{
+		res.jsonp({
+			status: 200,
+			message: "ok",
+			data: {
+				list,
+				hasMore: 0
+			}
+		});
+	}
+	
+});
+//获得帖子 按用户
+router.get('/essays/getByUserId', async function(req, res, next) {
+	console.log(req.query);
+	let list = await essayDao.getEssaysByUserId(req.query);
+	if(list.length >= req.query.size){
+		res.jsonp({
+			status: 200,
+			message: "ok",
+			data: {
+				list,
+				hasMore: 1
+			}
+		});
+	}else{
+		res.jsonp({
+			status: 200,
+			message: "ok",
+			data: {
+				list,
+				hasMore: 0
+			}
+		});
+	}
+	
+});
+
+
 
 //
 router.get('/get', async function(req, res, next) {
@@ -108,13 +160,6 @@ router.post('/comment/add', async function(req, res, next) {
 //获得评论
 router.get('/comment/get', async function(req, res, next) {
 	let list = await essayDao.getComments(req.query);
-//	res.jsonp({
-//		  status: 200,
-//		  message: "ok",
-//		  data: {
-//		   	list
-//		  }
-//	});
 	if(list.length >= req.query.size){
 		res.jsonp({
 			status: 200,
@@ -135,6 +180,46 @@ router.get('/comment/get', async function(req, res, next) {
 		});
 	}
 });
+//获得根据一级评论id获得二级评论
+//function  async getLayer2Comments(id){
+//	return new Promise(function(resolve, reject){
+//		let list = await essayDao.getLayer2Comments(id);
+//		console.log("---------------list---------------");
+//		console.log(list);
+//		resolve();
+//	})
+//}
+//router.get('/comment/get', async function(req, res, next) {
+//	let list = await essayDao.getLayer2Comments(req.query.commentId);
+//	console.log(list);
+//	let promiseArray = [];
+//	for(let i=0, i=list.length; i<len; i++){
+//
+//		promiseArray.push(getLayer2Comments(list[i].id));
+//	}
+//	Promise.all(promiseArray).then(function(){
+//		console.log("都结束了");
+//	});
+//	if(list.length >= req.query.size){
+//		res.jsonp({
+//			status: 200,
+//			message: "ok",
+//			data: {
+//				list,
+//				hasMore: 1
+//			}
+//		});
+//	}else{
+//		res.jsonp({
+//			status: 200,
+//			message: "ok",
+//			data: {
+//				list,
+//				hasMore: 0
+//			}
+//		});
+//	}
+//});
 
 
 
